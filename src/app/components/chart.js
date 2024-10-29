@@ -1,9 +1,12 @@
-// app/dashboard/page.js
 "use client";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
+import { Chart, registerables } from "chart.js"; // นำเข้า registerables
 
-export default function Dashboard() {
+// ลงทะเบียนวัตถุที่จำเป็น
+Chart.register(...registerables);
+
+const ChartComponent = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
@@ -46,7 +49,6 @@ export default function Dashboard() {
             labels: groupedData[screenId].items.map((item) => item.itemLabel),
             datasets: [
               {
-                label: "Display Count",
                 data: groupedData[screenId].items.map(
                   (item) => item.displayCount
                 ),
@@ -79,18 +81,21 @@ export default function Dashboard() {
               {screenLabel} (Screen ID: {screenId})
             </h3>
             <div className="h-96">
-              {" "}
-              {/* ตั้งค่า height ของกราฟ */}
               <Bar
                 data={chartData}
                 options={{
                   responsive: true,
-                  maintainAspectRatio: true, // ตั้งค่าให้คงอัตราส่วน
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: {
+                      display: false, // ซ่อน legend
+                    },
+                  },
                   scales: {
                     y: {
                       beginAtZero: true,
                       ticks: {
-                        maxTicksLimit: 5, // จำกัดจำนวน ticks
+                        maxTicksLimit: 5,
                       },
                     },
                   },
@@ -104,4 +109,6 @@ export default function Dashboard() {
       )}
     </div>
   );
-}
+};
+
+export default ChartComponent;
