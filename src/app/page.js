@@ -1,9 +1,11 @@
 // import Camera from "./components/camera";
 
-import Chart from "./components/Chart";
+import ChartComponent from "./components/chart2";
 
 export default function Home() {
-  return <div>
-    <Chart/>
-  </div>;
+  return (
+    <div>
+      <ChartComponent />
+    </div>
+  );
 }
